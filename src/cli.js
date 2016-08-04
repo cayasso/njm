@@ -9,37 +9,51 @@ cmd
 
 cmd
   .command('create <name>')
-  .description('create a new neo4j intance')
+  .description('create a new neo4j instance')
+  .option("-e, --edition <edition>", "Set the neo4j edition")
+  .option("-v, --version <version>", "Set the neo4j version")
+  .option("-a, --address <address>", "Set the http address")
+  .option("-s, --ssl <ssl>", "Set the https address")
+  .option("-b, --bolt <bolt>", "Set bolt address")
   .action((name, options) => {
-    njm().create(name)
+    if (options.address) options.http = options.address
+    if (options.ssl) options.https = options.ssl
+    let { http, https, bolt, edition, version } = options
+    njm().create(name, { http, https, bolt, edition, version })
   })
 
 cmd
-  .command('start <name>')
-  .description('create a new neo4j intance')
+  .command('stop [name]')
+  .description('create a new neo4j instance')
+  .action((name, options) => {
+    njm().stop(name)
+  })
+
+cmd
+  .command('start [name]')
+  .description('create a new neo4j instance')
   .action((name, options) => {
     njm().start(name)
   })
 
 cmd
-  .command('stop <name>')
-  .description('create a new neo4j intance')
+  .command('stop [name]')
+  .description('create a new neo4j instance')
   .action((name, options) => {
     njm().stop(name)
   })
 
-
 cmd
-  .command('restart <name>')
-  .description('create a new neo4j intance')
+  .command('restart [name]')
+  .description('create a new neo4j instance')
   .action((name, options) => {
     njm().restart(name)
   })
 
 cmd
-  .command('destroy <name>')
+  .command('destroy [name]')
   .alias('ex')
-  .description('create a new neo4j intance')
+  .description('create a new neo4j instance')
   .action((name, options) => {
     njm().destroy(name)
   })
