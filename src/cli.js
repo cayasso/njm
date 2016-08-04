@@ -52,7 +52,6 @@ cmd
 
 cmd
   .command('destroy [name]')
-  .alias('ex')
   .description('create a new neo4j instance')
   .action((name, options) => {
     njm().destroy(name)
