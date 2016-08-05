@@ -1,7 +1,7 @@
 'use strict'
 
 import pkg from '../package.json'
-import commander from 'commander'
+import cmd from 'commander'
 import njm from './njm'
 
 cmd
