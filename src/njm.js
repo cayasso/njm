@@ -26,8 +26,6 @@ export default (opt = {}) => {
   const makeDir = p => (test('-d', p) || mkdir(p))
   const batch = fn => Object.keys(instances).map(fn)
   const sourceFile = v => `neo4j-${edition}-${v}-unix.tar.gz`
-  const ins = dirs(`${path}/instances`)
-
   const command = cmd => name => {
     if (!name) return batch(command(cmd))
     instances[name] &&
@@ -41,6 +39,7 @@ export default (opt = {}) => {
   const destroy = command('destroy')
   const instance = name => name ? instances[name] : instances
   const create = (name, options) => {
+
     if (instances[name]) instances[name].destroy()
     const file = sourceFile(options && options.release || release)
     const instancePath = `${path}/instances/${name}`
@@ -59,7 +58,7 @@ export default (opt = {}) => {
   makeDir(`${path}/neo4j/`)
   makeDir(`${path}/instances/`)
 
-  ins.map(name => {
+  dirs(`${path}/instances`).map(name => {
     const instancePath = `${path}/instances/${name}`
     const file = fs.readFileSync(`${instancePath}/conf/neo4j.conf`, 'utf8')
     if (instances[name]) return
