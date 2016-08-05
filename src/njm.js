@@ -2,8 +2,8 @@
 
 import fs from 'fs'
 import rc from 'rc'
-import { get, set, fetch, format, parse } from './utils'
-import { test, mkdir, ls, rm, mv, exec } from 'shelljs'
+import { test, mkdir, rm, mv, exec } from 'shelljs'
+import { get, set, fetch, format, parse, dirs } from './utils'
 
 const conf = rc('NJM', {
   PATH: `${__dirname}/../.njm`,
@@ -26,7 +26,8 @@ export default (opt = {}) => {
   const makeDir = p => (test('-d', p) || mkdir(p))
   const batch = fn => Object.keys(instances).map(fn)
   const sourceFile = v => `neo4j-${edition}-${v}-unix.tar.gz`
-  const dirs = ls('-d', `${path}/instances/*`).map(d => d.replace(`${path}/instances/`, ''))
+  const ins = dirs(`${path}/instances`)
+
   const command = cmd => name => {
     if (!name) return batch(command(cmd))
     instances[name] &&
@@ -58,7 +59,7 @@ export default (opt = {}) => {
   makeDir(`${path}/neo4j/`)
   makeDir(`${path}/instances/`)
 
-  dirs.map(name => {
+  ins.map(name => {
     const instancePath = `${path}/instances/${name}`
     const file = fs.readFileSync(`${instancePath}/conf/neo4j.conf`, 'utf8')
     if (instances[name]) return

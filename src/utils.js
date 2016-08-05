@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { test, exec, which } from 'shelljs'
 
 export function parse(obj) {
@@ -55,4 +56,10 @@ export function fetch(host, file, path) {
     exec(`curl ${host}/${file} -o ${path}/neo4j/${file}`)
   else
     throw new Error('`curl` or `wget` required');
+}
+
+export function dirs(path) {
+  return fs.readdirSync(path)
+    .filter(file => fs.statSync(`${path}/${file}`)
+    .isDirectory())
 }
