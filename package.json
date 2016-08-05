@@ -1,7 +1,7 @@
 {
   "name": "njm",
   "description": "Easy Neo4j instance manager",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "author": "Jonathan Brumley <cayasso@gmail.com>",
   "keywords": [
     "njm",
