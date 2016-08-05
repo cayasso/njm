@@ -3,11 +3,11 @@
 import fs from 'fs'
 import rc from 'rc'
 import { get, set, fetch, format, parse } from './utils'
-import { pwd, test, mkdir, ls, rm, mv, exec } from 'shelljs'
+import { test, mkdir, ls, rm, mv, exec } from 'shelljs'
 
 const conf = rc('NJM', {
-  PATH: pwd() + '/.njm',
-  NEO4J_VERSION: '3.0.3',
+  PATH: `${__dirname}/../.njm`,
+  NEO4J_RELEASE: '3.0.3',
   NEO4J_EDITION: 'community',
   NEO4J_HTTP: '0.0.0.0:7474',
   NEO4J_HOST: 'http://dist.neo4j.org'
@@ -19,7 +19,7 @@ export default (opt = {}) => {
   const {
     path = conf.PATH,
     http = conf.NEO4J_HTTP,
-    version = conf.NEO4J_VERSION,
+    release = conf.NEO4J_RELEASE,
     edition = conf.NEO4J_EDITION
   } = opt
 
@@ -41,7 +41,7 @@ export default (opt = {}) => {
   const instance = name => name ? instances[name] : instances
   const create = (name, options) => {
     if (instances[name]) instances[name].destroy()
-    const file = sourceFile(options && options.version || version)
+    const file = sourceFile(options && options.release || release)
     const instancePath = `${path}/instances/${name}`
     const tempPath = `${path}/temp/${name}`
     fetch(conf.NEO4J_HOST, file, path)
