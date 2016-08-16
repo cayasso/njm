@@ -8,7 +8,7 @@ export function parse(obj) {
       return o
     }, {})
   }
-  let parts = obj.split(':')
+  let parts = obj.replace(/.*?:\/\//g, '').split(':')
   return {
     host: parts[0],
     port: parseInt(parts[1], 10)
