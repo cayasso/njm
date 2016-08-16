@@ -47,7 +47,7 @@ export default (opt = {}) => {
     fetch(conf.NEO4J_HOST, file, path)
     rm('-rf', instancePath)
     makeDir(tempPath)
-    exec(`tar -xjf ${path}/neo4j/${file} -C ${tempPath}/`)
+    exec(`tar -zxvf ${path}/neo4j/${file} -C ${tempPath}/`)
     mv('-f', `${tempPath}/${file}`.replace('-unix.tar.gz', ''), instancePath)
     rm('-rf', `${tempPath}/`)
     instances[name] = createInstance(name, instancePath, { http, ...options })
